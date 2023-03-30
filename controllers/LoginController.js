@@ -55,5 +55,19 @@ const login = async (req, res) => {
     res.status(500).send(ERROR_MESSAGE[500]);
   }
 };
-
-module.exports = { login };
+const validate = async (req, res) => {
+  if (req.headers.authorization || req.headers.authorization.split(' ')[0] === 'Bearer') {
+    const token = req.headers.authorization.split(' ')[1];
+    const decode = jwt.decode(token, "secret");
+    return res.send({
+      login: true,
+      data: decode,
+    });
+  } else {
+    return res.send({
+      login: false,
+      data: "error",
+    });
+  }
+};
+module.exports = { login, validate };
