@@ -2,11 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 dotenv.config();
+const { login } = require('../../controllers/LoginController');
 
 const router = express.Router();
-const { createNft } = require('../../controllers/NftController');
 
-router.post('/nft/create', createNft);
+router.post('/login', login);
 
 module.exports = router;
 
