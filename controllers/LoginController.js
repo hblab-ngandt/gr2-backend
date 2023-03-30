@@ -33,6 +33,7 @@ const login = async (req, res) => {
           }
         );
         return res.send({
+          username: newUser?.username || '',
           accessToken,
           message: 'Login new user successful'
         });
@@ -45,6 +46,7 @@ const login = async (req, res) => {
           }
         );
         return res.send({
+          username: user.username,
           accessToken,
           message: 'Login successful'
         });
