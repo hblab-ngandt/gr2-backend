@@ -10,8 +10,8 @@ dotenv.config();
 
 const login = async (req, res) => {
   try {
+    let data = [];
     const checkAddress = ethers.isAddress(req.body.walletAddress);
-    console.log(checkAddress);
     if (checkAddress) {
       const user = await model.User.findOne({
         where: {
@@ -45,11 +45,12 @@ const login = async (req, res) => {
             expiresIn: '1h',
           }
         );
-        return res.send({
+        data = {
           username: user.username,
           accessToken,
           message: 'Login successful'
-        });
+        };
+        return res.send({ data: data });
       }
     }
     return res.status(400).send(ERROR_MESSAGE.invalid_address);

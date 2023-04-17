@@ -6,7 +6,7 @@ const { login, validate } = require('../../controllers/LoginController');
 
 const router = express.Router();
 
-router.post('/login', login);
+router.post('/api/login', login);
 router.get('/validate', validate);
 
 module.exports = router;
