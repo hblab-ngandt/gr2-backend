@@ -46,11 +46,11 @@ const login = async (req, res) => {
           }
         );
         data = {
-          username: user.username,
+          user: user,
           accessToken,
           message: 'Login successful'
         };
-        return res.send({ data: data });
+        return res.send({ result: data });
       }
     }
     return res.status(400).send(ERROR_MESSAGE.invalid_address);
