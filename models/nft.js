@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       owner: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
       }
   }, {
     sequelize,

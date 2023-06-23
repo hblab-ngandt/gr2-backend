@@ -1,4 +1,4 @@
-const { ethers } = require('ethers');
+const { ethers, utils } = require('ethers');
 const model = require('../models');
 const dotenv = require('dotenv');
 const create =  require("ipfs-http-client");
@@ -9,18 +9,20 @@ const { Op } = require('sequelize');
 
 dotenv.config();
 
-const getProfile = async (req, res) => {
+const myProfile = async (req, res) => {
   try {
     const user = await model.User.findOne({
       where: {
-        walletAddress: ethers.getAddress(req.body.walletAddress)
+        walletAddress: req.body.walletAddress
       },
     });
     if (user) {
-      return res.send({ result: user });
+      return res.send({ user: user });
     }
+    return res.status(400).send({ message: 'User not valid' });
   } catch (err) {
     console.log(err);
+    res.status(500).send(ERROR_MESSAGE[500]);
   }
 }
 
@@ -28,7 +30,7 @@ const update = async (req, res) => {
   try {
     const user = await model.User.findOne({
       where: {
-        walletAddress: ethers.getAddress(req.body.walletAddress)
+        walletAddress: req.body.walletAddress
       },
     });
     if (user) {
@@ -55,4 +57,4 @@ const update = async (req, res) => {
   }
 }
 
-module.exports = { getProfile, update };
+module.exports = { myProfile, update };

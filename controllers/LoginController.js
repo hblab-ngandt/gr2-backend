@@ -11,11 +11,10 @@ dotenv.config();
 const login = async (req, res) => {
   try {
     let data = [];
-    const checkAddress = ethers.isAddress(req.body.walletAddress);
-    if (checkAddress) {
+    if (req.body.walletAddress) {
       const user = await model.User.findOne({
         where: {
-          walletAddress: ethers.getAddress(req.body.walletAddress)
+          walletAddress: req.body.walletAddress
         },
       });
       if (!user) {
