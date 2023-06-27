@@ -31,4 +31,22 @@ const createNft = async (req, res) => {
   }
 }
 
-module.exports = { uploadImage, createNft };
+const getMyNft = async (req, res) => {
+  try {
+    const result = await model.Nft.findAll({
+      where: {
+        created_by: req.body.address
+      },
+    });
+    return res.send({ nfts: result });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ error: 'Get list nft success' });
+  }
+}
+
+module.exports = {
+  uploadImage,
+  createNft,
+  getMyNft
+};
