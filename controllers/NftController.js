@@ -35,7 +35,7 @@ const getMyNft = async (req, res) => {
   try {
     const result = await model.Nft.findAll({
       where: {
-        created_by: req.body.address
+        created_by: req.body.walletAddress
       },
     });
     return res.send({ nfts: result });
