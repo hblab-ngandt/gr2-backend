@@ -12,7 +12,19 @@ module.exports = {
         allowNull: false,
       },
       name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
         type: Sequelize.STRING
+      },
+      url: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_by: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       owner: {
         type: Sequelize.STRING,

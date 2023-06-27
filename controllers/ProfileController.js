@@ -43,12 +43,12 @@ const update = async (req, res) => {
       if (existUser) {
         return res.status(400).send({ message: 'This username already exists' });
       }
-      const result = req.files;
+      const image = req.files;
 
       await user.update({
         username: req.body.username ?? user.username,
         birthday: req.body.birthday ?? user.birthday,
-        profile: result ? `${result.images[0].location}`: user.profile,
+        profile: image ? `${image.images[0].location}`: user.profile,
       });
       return res.send({ message: 'Update profile succesfully' });
     }

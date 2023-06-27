@@ -21,16 +21,24 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull:true,
+        allowNull:false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      created_by: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       owner: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      }
   }, {
     sequelize,
     modelName: 'Nft',

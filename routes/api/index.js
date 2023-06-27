@@ -37,7 +37,7 @@ const upload = multer({
 
 const { login, validate } = require('../../controllers/LoginController');
 const { myProfile, update } = require('../../controllers/ProfileController');
-const { createNft } = require('../../controllers/NftController');
+const { uploadImage, createNft } = require('../../controllers/NftController');
 
 const router = express.Router();
 
@@ -47,9 +47,10 @@ router.post('/api/user/profile', myProfile);
 router.post('/api/user/update', upload.fields([
   { name: 'images', maxCount: 1 },
 ]), update);
-router.post('/api/nft/create', upload.fields([
+router.post('/api/nft/upload', upload.fields([
   { name: 'images', maxCount: 1 },
-]), createNft);
+]), uploadImage);
+router.post('/api/nft/create', createNft);
 
 module.exports = router;
 

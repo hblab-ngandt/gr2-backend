@@ -1,47 +1,35 @@
 const { Model } = require('sequelize');
 const Sequelize = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  class Transaction extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  Transaction.init(
-    {
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Nfts', {
       id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
       txHash: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       amout: {
         allowNull: true,
-        type: DataTypes.FLOAT,
+        type: Sequelize.FLOAT,
       },
       type: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       sender: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       receiver: {
-       type: DataTypes.STRING,
+       type: Sequelize.STRING,
       }
-    },
-    {
-      sequelize,
-      modelName: 'Transaction',
-    }
-  );
-  return Transaction;
+    });
+  },
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Nfts');
+  }
 };
