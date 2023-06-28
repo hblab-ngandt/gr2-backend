@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Transaction extends Model {
+  class Marketplace extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,25 +13,32 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Transaction.init({
+  Marketplace.init({
     txHash: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    amout: {
+    seller: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    buyer: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    nftId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    price: {
       type: DataTypes.FLOAT,
     },
     type: {
       type: DataTypes.INTEGER,
     },
-    sender: {
-      type: DataTypes.STRING,
-    },
-    receiver: {
-      type: DataTypes.STRING,
-    },
   }, {
     sequelize,
-    modelName: 'Transaction',
+    modelName: 'Marketplace',
   });
-  return Transaction;
+  return Marketplace;
 };

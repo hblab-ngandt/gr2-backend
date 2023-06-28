@@ -1,5 +1,6 @@
 const model = require('../models');
 const dotenv = require('dotenv');
+const { NFT, MARKETPLACE_ADDRESS } = require('../constants/nft');
 
 dotenv.config();
 
@@ -45,8 +46,39 @@ const getMyNft = async (req, res) => {
   }
 }
 
+const sellNft = async (req, res) => {
+  try {
+    const nft = await model.Nft.findOne({
+      where: {
+        nftId: req.body.nftId,
+        created_by: req.body.walletAddress
+      }
+    });
+    if (nft) {
+      await nft.update({
+        status: NFT.STATUS.SELL,
+        owner: MARKETPLACE_ADDRESS,
+      });
+      const marketplace = {
+        txHash: req.body.txHash,
+        seller: req.body.seller,
+        buyer: MARKETPLACE_ADDRESS,
+        nftId: req.body.nftId,
+        price: req.body.price,
+        type: NFT.STATUS.SELL,
+      }
+      await model.Marketplace.create(marketplace);
+      return res.send({ message: 'Sell NFT successfully' });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: 'Fail to sell nft' });
+  }
+}
+
 module.exports = {
   uploadImage,
   createNft,
-  getMyNft
+  getMyNft,
+  sellNft,
 };
