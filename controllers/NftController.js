@@ -76,9 +76,24 @@ const sellNft = async (req, res) => {
   }
 }
 
+const getMarketplace = async (req, res) => {
+  try {
+    const data = await model.Nft.findAll({
+      where: {
+        owner: req.body.marketplace,
+      },
+    });
+    return res.send({ message: 'Marketplaces founded', marketplaces: data });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: 'Failed to get marketplaces' });
+  }
+}
+
 module.exports = {
   uploadImage,
   createNft,
   getMyNft,
   sellNft,
+  getMarketplace,
 };
