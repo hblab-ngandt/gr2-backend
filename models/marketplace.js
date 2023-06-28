@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.INTEGER,
     },
+    marketId: {
+      type: DataTypes.INTEGER,
+    },
   }, {
     sequelize,
     modelName: 'Marketplace',

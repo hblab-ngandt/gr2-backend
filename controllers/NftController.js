@@ -1,7 +1,7 @@
 const model = require('../models');
 const dotenv = require('dotenv');
 const { NFT, MARKETPLACE_ADDRESS } = require('../constants/nft');
-const { where, QueryTypes } = require('sequelize');
+const { Op } = require('sequelize');
 
 dotenv.config();
 
@@ -37,7 +37,10 @@ const getMyNft = async (req, res) => {
   try {
     const result = await model.Nft.findAll({
       where: {
-        created_by: req.body.walletAddress
+        [Op.and]: [
+          { created_by: req.body.walletAddress },
+          { owner: req.body.walletAddress },
+        ]
       },
     });
     return res.send({ nfts: result });
@@ -67,6 +70,7 @@ const sellNft = async (req, res) => {
         nftId: req.body.nftId,
         price: req.body.price,
         type: NFT.STATUS.SELL,
+        marketId: req.body.marketId,
       }
       await model.Marketplace.create(marketplace);
       return res.send({ message: 'Sell NFT successfully' });
