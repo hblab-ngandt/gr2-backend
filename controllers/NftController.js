@@ -24,7 +24,7 @@ const createNft = async (req, res) => {
       url: req.body.url,
       created_by: req.body.owner,
       owner: req.body.owner,
-      status: NFT.STATUS.SELL
+      status: NFT.STATUS.NEW
     };
     await model.Nft.create(nft);
     return res.send({ message: 'Create NFT successfully' });
@@ -144,6 +144,36 @@ const buyNft = async (req, res) => {
   }
 }
 
+const cancelSellNft = async (req, res) => {
+  try {
+    const item = await model.Marketplace.findOne({
+      where: {
+        marketId: req.body.marketId,
+        type: NFT.STATUS.SELL
+      },
+    });
+    if (item) {
+      await model.Nft.update(
+        {
+          owner: item.seller,
+          status: NFT.STATUS.CANCEL_SELL
+        }, 
+        {
+          where: {
+            nftId: item.nftId,
+          }
+        },
+      );
+      item.destroy();
+      return res.send({ message: 'Cancel nft successfully' });
+    }
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: 'Failed to cancel this nft' });
+  }
+}
+
 module.exports = {
   uploadImage,
   createNft,
@@ -151,4 +181,5 @@ module.exports = {
   sellNft,
   getMarketplace,
   buyNft,
+  cancelSellNft,
 };
