@@ -42,7 +42,8 @@ const {
   createNft,
   getMyNft,
   sellNft,
-  getMarketplace
+  getMarketplace,
+  buyNft,
 } = require('../../controllers/NftController');
 
 const router = express.Router();
@@ -60,6 +61,7 @@ router.post('/api/nft/create', createNft);
 router.post('/api/nft/my-nft', getMyNft);
 router.post('/api/nft/sell-nft', sellNft);
 router.post('/api/nft/marketplaces', getMarketplace);
+router.post('/api/nft/buy-nft', buyNft);
 
 module.exports = router;
 

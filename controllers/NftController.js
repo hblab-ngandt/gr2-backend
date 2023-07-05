@@ -23,7 +23,8 @@ const createNft = async (req, res) => {
       description: req.body.description,
       url: req.body.url,
       created_by: req.body.owner,
-      owner: req.body.owner
+      owner: req.body.owner,
+      status: NFT.STATUS.SELL
     };
     await model.Nft.create(nft);
     return res.send({ message: 'Create NFT successfully' });
@@ -64,7 +65,6 @@ const sellNft = async (req, res) => {
         owner: MARKETPLACE_ADDRESS,
       });
       const marketplace = {
-        txHash: req.body.txHash,
         seller: req.body.seller,
         buyer: MARKETPLACE_ADDRESS,
         nftId: req.body.nftId,
@@ -86,10 +86,10 @@ const getMarketplace = async (req, res) => {
     const data = await model.Nft.findAll({
       attributes: [
         'nftId', 'name', 'description', 'url', 'created_by', 'owner',
-        [model.sequelize.col('Marketplaces.txHash'), 'txHash'],
         [model.sequelize.col('Marketplaces.price'), 'price'],
         [model.sequelize.col('Marketplaces.seller'), 'seller'],
-        [model.sequelize.col('Marketplaces.type'), 'type']
+        [model.sequelize.col('Marketplaces.type'), 'type'],
+        [model.sequelize.col('Marketplaces.marketId'), 'marketId'],
       ],
       where: {
         owner: req.body.marketplace,
@@ -111,10 +111,44 @@ const getMarketplace = async (req, res) => {
   }
 }
 
+const buyNft = async (req, res) => {
+  try {
+    const item = await model.Marketplace.findOne({
+      where:{
+        type: NFT.STATUS.SELL,
+        marketId: req.body.marketId
+      },
+    });
+
+    await item.update({
+      buyer: req.body.walletAddress,
+      type: NFT.STATUS.BOUGHT,
+    });
+
+    await model.Nft.update(
+      {
+        status: NFT.STATUS.BOUGHT,
+        created_by: req.body.walletAddress,
+        owner: req.body.walletAddress,
+      },
+      {
+        where: {
+          nftId: item.nftId,
+        }
+      }
+    );
+    return res.send({ message: 'Buy nft successfully' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: 'Failed to buy this nft' });
+  }
+}
+
 module.exports = {
   uploadImage,
   createNft,
   getMyNft,
   sellNft,
   getMarketplace,
+  buyNft,
 };

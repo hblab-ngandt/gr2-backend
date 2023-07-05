@@ -14,10 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Marketplace.init({
-    txHash: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     seller: {
       type: DataTypes.STRING,
       allowNull: false,
