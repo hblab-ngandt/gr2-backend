@@ -37,6 +37,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATEONLY,
       },
       role: DataTypes.INTEGER,
+      about: {
+        allowNull: true,
+        type: DataTypes.TEXT,
+      },
+      phone: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
+      address: {
+        allowNull: true,
+        type: DataTypes.TEXT,
+      },
     },
     {
       sequelize,

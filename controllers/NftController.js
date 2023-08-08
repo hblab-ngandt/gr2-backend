@@ -73,7 +73,7 @@ const sellNft = async (req, res) => {
         marketId: req.body.marketId,
       }
       await model.Marketplace.create(marketplace);
-      return res.send({ message: 'Sell NFT successfully' });
+      return res.status(200).send({ message: 'Sell NFT successfully' });
     }
   } catch (err) {
     console.log(err);

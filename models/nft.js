@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Nft.hasMany(models.Marketplace, { sourceKey: 'nftId', foreignKey: 'nftId' });
-
+      // Nft.belongsTo(models.Users, { sourceKey: 'nft', foreignKey: 'userId' });
     }
   }
   Nft.init(
